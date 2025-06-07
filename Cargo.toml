@@ -1,0 +1,3 @@
+[workspace]
+members = [ "crates/car_rental", "crates/fitness", "crates/homekart", "crates/movie_book", "crates/musicx","crates/pubsub", "crates/snake_ladder"]
+resolver = "2"

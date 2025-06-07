@@ -1,0 +1,12 @@
+[package]
+name = "snake_ladder"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rand = "0.8.5"
+tokio = { version = "1.31", features = ["full"] }
+futures = "0.3.25"
+
+[[bin]]
+name = "snake_ladder"

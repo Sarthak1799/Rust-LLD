@@ -1,0 +1,10 @@
+[package]
+name = "pubsub"
+version = "0.1.0"
+edition = "2021"
+
+
+[[bin]]
+name = "pubsub"
+
+[dependencies]
