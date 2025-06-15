@@ -1,0 +1,11 @@
+[package]
+name = "meet_scheduler"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "scheduler"
+
+[dependencies]
+chrono = "0.4"
+uuid = { version = "1.0", features = ["v7"] }
