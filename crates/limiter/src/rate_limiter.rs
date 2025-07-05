@@ -17,7 +17,7 @@ impl Limiter {
         self.limiter = RwLock::new(limiter);
     }
 
-    pub fn process(&mut self, req: Request) -> Result<(), LimiterError> {
+    pub async fn process(&self, req: Request) -> Result<(), LimiterError> {
         let mut writer = self
             .limiter
             .write()
@@ -28,7 +28,7 @@ impl Limiter {
         Ok(())
     }
 
-    pub fn reset(&mut self) -> Result<(), LimiterError> {
+    pub fn reset(&self) -> Result<(), LimiterError> {
         let mut writer = self
             .limiter
             .write()

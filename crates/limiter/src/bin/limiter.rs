@@ -1,12 +1,15 @@
+use std::{clone, sync::Arc};
+
 use limiter::{
     limiter_interface,
     rate_limiter::{Limiter, Request},
 };
 use uuid::Uuid;
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let algorithm = limiter_interface::SlidingWindowLimiter::new(5);
-    let mut limiter = Limiter::new(Box::new(algorithm));
+    let limiter = Arc::new(Limiter::new(Box::new(algorithm)));
 
     let id1 = generate_timestamp_uuid();
     let id2 = generate_timestamp_uuid();
@@ -29,18 +32,25 @@ fn main() {
         Request::new(id6.clone(), "data6".to_string()),
     ];
 
+    let mut handle = Vec::new();
     for input in inputs {
-        let _ = limiter
-            .process(input.clone())
-            .inspect_err(|e| println!("Error processing input: {:?}", e));
+        let clone_limiter = Arc::clone(&limiter);
+        let crr = tokio::spawn(async move {
+            let _ = clone_limiter
+                .process(input.clone())
+                .await
+                .inspect_err(|e| println!("Error processing input: {:?}", e));
+        });
+
+        handle.push(crr);
     }
 
-    let _ = limiter
-        .reset()
-        .inspect_err(|e| println!("Error resetting limiter: {:?}", e));
+    futures::future::try_join_all(handle).await;
+
+    println!("Testing with CounterLimiter...\n");
 
     let new_algo = limiter_interface::CounterLimiter::new(2);
-    limiter.set_limiter(Box::new(new_algo));
+    let limiter = Arc::new(Limiter::new(Box::new(new_algo)));
 
     // Example usage of the limiter
     let inputs = vec![
@@ -56,11 +66,19 @@ fn main() {
         Request::new(id6.clone(), "data6".to_string()),
     ];
 
+    let mut handle = Vec::new();
     for input in inputs {
-        let _ = limiter
-            .process(input.clone())
-            .inspect_err(|e| println!("Error processing input: {:?}", e));
+        let clone_limiter = Arc::clone(&limiter);
+        let crr = tokio::spawn(async move {
+            let _ = clone_limiter
+                .process(input.clone())
+                .await
+                .inspect_err(|e| println!("Error processing input: {:?}", e));
+        });
+
+        handle.push(crr);
     }
+    futures::future::try_join_all(handle).await;
 }
 
 fn generate_timestamp_uuid() -> String {
