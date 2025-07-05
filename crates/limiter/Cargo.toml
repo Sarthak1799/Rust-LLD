@@ -1,0 +1,12 @@
+[package]
+name = "limiter"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "limiter"
+
+[dependencies]
+uuid = { version = "1.2", features = ["v7"] }
+tokio = { version = "1.31", features = ["full"] }
+futures = "0.3.25"
