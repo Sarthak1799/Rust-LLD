@@ -364,6 +364,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "newsfeed"
+version = "0.1.0"
+dependencies = [
+ "uuid",
+]
+
+[[package]]
 name = "num-traits"
 version = "0.2.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -563,6 +570,13 @@ checksum = "4f5fd57c80058a56cf5c777ab8a126398ece8e442983605d280a44ce79d0edef"
 dependencies = [
  "libc",
  "windows-sys",
+]
+
+[[package]]
+name = "spliter"
+version = "0.1.0"
+dependencies = [
+ "uuid",
 ]
 
 [[package]]

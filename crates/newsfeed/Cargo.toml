@@ -1,0 +1,10 @@
+[package]
+name = "newsfeed"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "newsfeed"
+
+[dependencies]
+uuid = { version = "1.2", features = ["v7"] }
